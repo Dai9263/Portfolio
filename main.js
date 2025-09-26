@@ -648,3 +648,34 @@ document.addEventListener('DOMContentLoaded', function() {
         setLanguage('en');
     });
 });
+
+// ===== 主题切换 =====
+function setTheme(mode) {
+    if (mode === 'dark') {
+        document.body.classList.add('dark');
+        document.getElementById('theme-toggle').textContent = '☀️';
+        document.getElementById('theme-toggle').setAttribute('title', '切换为浅色模式');
+    } else {
+        document.body.classList.remove('dark');
+        document.getElementById('theme-toggle').textContent = '🌙';
+        document.getElementById('theme-toggle').setAttribute('title', '切换为深色模式');
+    }
+    localStorage.setItem('theme', mode);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ...existing code...
+    // 主题切换
+    const themeBtn = document.getElementById('theme-toggle');
+    // 初始化主题
+    let theme = localStorage.getItem('theme');
+    if (!theme) {
+        // 跟随系统
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    setTheme(theme);
+    themeBtn.addEventListener('click', function() {
+        const isDark = document.body.classList.contains('dark');
+        setTheme(isDark ? 'light' : 'dark');
+    });
+});
